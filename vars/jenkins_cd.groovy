@@ -7,3 +7,7 @@ def sftp_get(credential_store_name) {
     sh "echo -oStrictHostKeyChecking=no -i ${keyfile} ${USERNAME}"
   }
 }
+
+def hello(String name) {
+  echo "My Name is ${name}"
+}
