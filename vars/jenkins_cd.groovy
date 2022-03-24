@@ -3,5 +3,7 @@ def hostname() {
 }
 
 def sftp_get() {
-  sh "echo -oStrictHostKeyChecking=no -i ${keyfile} ${USERNAME}"
+  withCredentials([sshUserPrivateKey(credentialsId:'sftp-key', keyFileVariable: 'keyfile',usernameVariable: 'USERNAME')]) {
+    sh "echo -oStrictHostKeyChecking=no -i ${keyfile} ${USERNAME}"
+  }
 }
