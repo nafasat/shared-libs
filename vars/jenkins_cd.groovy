@@ -16,7 +16,7 @@ def push_github(Map github_args = [:])
     {
       // sh "tar -xf $tar_archive_name"
       // sh "rm -rf $tar_archive_name"
-      actual_file_name = "${github_args.tar_archive_name}".replaceAll(".tar.gz","")
+      actual_file_name = "${github_args.tar_archive_name}".replaceAll(".zip","")
       sh "echo ${actual_file_name}"
     }
   }
