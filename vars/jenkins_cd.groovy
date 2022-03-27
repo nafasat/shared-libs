@@ -2,22 +2,22 @@ def hostname() {
   sh '''hostname -f'''
 }
 
-def sftp_get(Map config = [:]) {
-  withCredentials([sshUserPrivateKey(credentialsId:"${config.credential_sftp_name}", keyFileVariable: 'keyfile',usernameVariable: 'USERNAME')]) {
-    sh "echo -oStrictHostKeyChecking=no -i ${keyfile} ${USERNAME} ${config.target}"
-    sh "echo ${config.tar_archive_name}"
+def sftp_get(Map sft_args = [:]) {
+  withCredentials([sshUserPrivateKey(credentialsId:"${sft_args.credential_sftp_name}", keyFileVariable: 'keyfile',usernameVariable: 'USERNAME')]) {
+    sh "echo -oStrictHostKeyChecking=no -i ${keyfile} ${USERNAME} ${sft_args.target}"
+    sh "echo ${sft_args.tar_archive_name}"
   }
 }
 
-def push_github(String credential_github_name, String repo_path, String comment, String target, String tar_archive_name)
+def push_github(Map github_args = [:])
 {
-  withCredentials([sshUserPrivateKey(credentialsId:"${credential_github_name}", keyFileVariable: 'keyfile',usernameVariable: 'USERNAME')]) {
-    dir("${WORKSPACE}/${target}")
+  withCredentials([sshUserPrivateKey(credentialsId:"${github_args.credential_github_name}", keyFileVariable: 'keyfile',usernameVariable: 'USERNAME')]) {
+    dir("${WORKSPACE}/${github_args.target}")
     {
       // sh "tar -xf $tar_archive_name"
       // sh "rm -rf $tar_archive_name"
-      actual_file_name = "${tar_archive_name}".replaceAll(".tar.gz","")
-      echo "${actual_file_name}"
+      actual_file_name = "${github_args.tar_archive_name}".replaceAll(".tar.gz","")
+      sh "echo ${actual_file_name}"
     }
   }
 }
