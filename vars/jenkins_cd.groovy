@@ -14,8 +14,8 @@ def push_github(Map github_args = [:])
   withCredentials([sshUserPrivateKey(credentialsId:"${github_args.credential_github_name}", keyFileVariable: 'keyfile',usernameVariable: 'USERNAME')]) {
     dir("${WORKSPACE}/${github_args.target}")
     {
-      // sh "tar -xf $tar_archive_name"
-      // sh "rm -rf $tar_archive_name"
+      sh "tar -xf $tar_archive_name"
+      sh "rm -rf $tar_archive_name"
       actual_file_name = "${github_args.tar_archive_name}".replaceAll(".zip","")
       sh "echo ${actual_file_name}"
     }
