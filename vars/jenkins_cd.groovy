@@ -5,6 +5,7 @@ def hostname() {
 def sftp_get(Map config = [:]) {
   withCredentials([sshUserPrivateKey(credentialsId:"${config.credential_sftp_name}", keyFileVariable: 'keyfile',usernameVariable: 'USERNAME')]) {
     sh "echo -oStrictHostKeyChecking=no -i ${keyfile} ${USERNAME} ${config.target}"
+    sh "echo ${config.tar_archive_name}"
   }
 }
 
