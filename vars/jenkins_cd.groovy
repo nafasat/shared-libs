@@ -2,8 +2,8 @@ def hostname() {
   sh '''hostname -f'''
 }
 
-def sftp_get(String credential_keystore_name, String target, String tar_archive_name) {
-  withCredentials([sshUserPrivateKey(credentialsId:"${credential_keystore_name}", keyFileVariable: 'keyfile',usernameVariable: 'USERNAME')]) {
+def sftp_get(String credential_sftp_name, String target, String tar_archive_name) {
+  withCredentials([sshUserPrivateKey(credentialsId:"${credential_sftp_name}", keyFileVariable: 'keyfile',usernameVariable: 'USERNAME')]) {
     sh "echo -oStrictHostKeyChecking=no -i ${keyfile} ${USERNAME} ${target}"
   }
 }
