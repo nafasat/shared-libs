@@ -14,7 +14,7 @@ def push_github(Map github_args = [:])
     dir("${WORKSPACE}/${github_args.target}")
     {
       sh '''git clone https://github.com/nafasat/testing_git.git
-      echo "${github_args.tar_archive_name}"
+      echo "${github_args.tar_archive_name}" > out.txt
       unzip "${github_args.tar_archive_name}"
       rm -rf "${github_args.tar_archive_name}"
       cp ./ansible.cfg ./testing_git/
