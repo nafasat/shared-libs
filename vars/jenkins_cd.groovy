@@ -10,13 +10,19 @@ def sftp_get(Map sftp_args = [:]) {
 
 def push_github(Map github_args = [:])
 {
-  withCredentials([sshUserPrivateKey(credentialsId:"${github_args.credential_github_name}", keyFileVariable: 'keyfile',usernameVariable: 'USERNAME')]) {
+  withCredentials([usernamePassword(credentialsId: "${github_args.credential_sftp_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     dir("${WORKSPACE}/${github_args.target}")
     {
-      //sh "tar -xf ${github_args.tar_archive_name}"
-      //sh "rm -rf ${github_args.tar_archive_name}"
+      sh ''' git clone git@github.com:nafasat/testing_git.git
+      unzip "${github_args.tar_archive_name}"
+      rm -rf "${github_args.tar_archive_name}"
       actual_file_name = "${github_args.tar_archive_name}".replaceAll(".zip","")
-      sh "echo ${actual_file_name}"
+      cp ./ansible.cfg /testing_git/
+      cd /testing_git/
+      git checkout dtesting
+      git add -A
+      git commit -m "${github_args.commit_msg}"
+      git push https://"${USERNAME}:${PASSWORD}@github.com/nafasat/testing_git.git'''
     }
   }
 }
