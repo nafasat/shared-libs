@@ -14,7 +14,8 @@ def push_github(Map github_args = [:])
     dir("${WORKSPACE}/${github_args.target}")
     {
       sh '''
-      git clone https://github.com/nafasat/testing_git.git;
+      git clone https://github.com/nafasat/testing_git.git
+      echo "Hello"
       '''
     }
   }
