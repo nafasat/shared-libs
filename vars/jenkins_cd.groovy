@@ -18,7 +18,7 @@ def push_github(Map github_args = [:])
       rm -rf "${github_args.tar_archive_name}"
       actual_file_name = "${github_args.tar_archive_name}".replaceAll(".zip","")
       cp ./ansible.cfg /testing_git/
-      cd /testing_git/
+      cd ./testing_git/
       git checkout dtesting
       git add -A
       git commit -m "${github_args.commit_msg}"
