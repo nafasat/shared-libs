@@ -2,10 +2,9 @@ def hostname() {
   sh '''hostname -f'''
 }
 
-def sftp_get(Map sft_args = [:]) {
-  withCredentials([sshUserPrivateKey(credentialsId:"${sft_args.credential_sftp_name}", keyFileVariable: 'keyfile',usernameVariable: 'USERNAME')]) {
-    sh "echo -oStrictHostKeyChecking=no -i ${keyfile} ${USERNAME} ${sft_args.target}"
-    sh "echo ${sft_args.tar_archive_name}"
+def sftp_get(Map sftp_args = [:]) {
+  withCredentials([usernamePassword(credentialsId: "${sft_args.credential_sftp_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    sh "echo get ${sftp_args.tar_archive_name} | sshpass -p ${PASSWORD} sftp ${USERNAME}@${sftp_args.sftp_ip}"
   }
 }
 
