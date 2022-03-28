@@ -3,7 +3,7 @@ def hostname() {
 }
 
 def sftp_get(Map sftp_args = [:]) {
-  withCredentials([usernamePassword(credentialsId: "${sft_args.credential_sftp_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+  withCredentials([usernamePassword(credentialsId: "${sftp_args.credential_sftp_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     sh "echo get ${sftp_args.tar_archive_name} | sshpass -p ${PASSWORD} sftp ${USERNAME}@${sftp_args.sftp_ip}"
   }
 }
