@@ -15,7 +15,7 @@ def push_github(Map github_args = [:])
     {
       sh '''
       git clone https://github.com/nafasat/testing_git.git
-      echo "${WORKSPACE}"
+      echo "${commit_msg}"
       '''
     }
   }
