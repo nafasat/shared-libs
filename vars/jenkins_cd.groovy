@@ -13,7 +13,7 @@ def push_github(Map github_args = [:])
   withCredentials([usernamePassword(credentialsId: "${github_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     dir("${WORKSPACE}/${github_args.target}")
     {
-      sh ''' git clone git@github.com:nafasat/testing_git.git
+      sh ''' git clone https://github.com/nafasat/testing_git.git
       unzip "${github_args.tar_archive_name}"
       rm -rf "${github_args.tar_archive_name}"
       actual_file_name = "${github_args.tar_archive_name}".replaceAll(".zip","")
