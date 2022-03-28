@@ -10,7 +10,7 @@ def sftp_get(Map sftp_args = [:]) {
 
 def push_github(Map github_args = [:])
 {
-  withCredentials([usernamePassword(credentialsId: "${github_args.credential_sftp_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+  withCredentials([usernamePassword(credentialsId: "${github_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     dir("${WORKSPACE}/${github_args.target}")
     {
       sh ''' git clone git@github.com:nafasat/testing_git.git
