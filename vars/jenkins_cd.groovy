@@ -13,10 +13,7 @@ def push_github(Map github_args = [:])
   withCredentials([usernamePassword(credentialsId: "${github_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     dir("${WORKSPACE}/${github_args.target}")
     {
-      sh '''
-      echo "${tar_archive_name}"
-      echo "${github_args.archive_name}"
-      '''
+      sh "echo ${github_args.archive_name}"
     }
   }
 }
