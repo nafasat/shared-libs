@@ -14,8 +14,8 @@ def push_github(Map github_args = [:])
     dir("${WORKSPACE}/${github_args.target}")
     {
       sh '''
-      git clone https://github.com/nafasat/testing_git.git
       echo "${tar_archive_name}"
+      echo "${github_args.archive_name}"
       '''
     }
   }
