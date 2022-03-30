@@ -11,21 +11,16 @@ def sftp_get(Map sftp_args = [:]) {
   }
 }
 
-def push_github(Map github_args = [:])
-{
+def push_github_script(Map github_args = [:]) {
   withCredentials([usernamePassword(credentialsId: "${github_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    dir("${WORKSPACE}/")
-    {
-      sh "echo ${github_args.archive_name}"
-    }
+    loadGitHubScript(name: 'push_github.sh')
+    sh "./push_github.sh ${USERNAME} ${PASSWORD} ${github_args.commit_msg} ${github_args.archive_name} ${github_args.repo_name_without_https}"
   }
 }
 
-
-def push_github_script(Map config = [:]) {
-  withCredentials([usernamePassword(credentialsId: "${config.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    loadGitHubScript(name: 'push_github.sh')
-    sh "./push_github.sh ${USERNAME} ${PASSWORD} ${config.commit_msg} ${config.archive_name} ${config.repo_name_without_https}"
+def image_to_quay_repo(Map quay_args = [:]) {
+  withCredentials([usernamePassword(credentialsId: "${quay_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    sh "skopeo copy docker-archive:./${archive_name} docker://enterprisequay.hbctxdom.com/${quay_args.container_repo}/${quay_args.container_image_name}:${quay_args.image_tag}"
   }
 }
 
