@@ -6,7 +6,11 @@ def sftp_get(Map sftp_args = [:]) {
   withCredentials([usernamePassword(credentialsId: "${sftp_args.credential_sftp_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     dir("${WORKSPACE}/")
     {
-      sh "echo get ${sftp_args.target_path}/${sftp_args.tar_archive_name} | sshpass -p ${PASSWORD} sftp -q -oStrictHostKeyChecking=no ${USERNAME}@${sftp_args.sftp_ip}"
+      if (binding.hasVariable("${sftp_args.sftp_ip}") && "${sftp_args.sftp_ip}"?.trim()) {
+        sh "echo get ${sftp_args.target_path}/${sftp_args.tar_archive_name} | sshpass -p ${PASSWORD} sftp -q -oStrictHostKeyChecking=no ${USERNAME}@${sftp_args.sftp_ip}"
+      } else
+        println("SFTP IP is blank/null")
+        error("Aborting the build.")
     }
   }
 }
