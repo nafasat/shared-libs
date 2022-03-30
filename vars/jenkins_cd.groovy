@@ -18,6 +18,14 @@ def push_github(Map github_args = [:])
   }
 }
 
+
+def push_github_script(Map config = [:]) {
+  withCredentials([usernamePassword(credentialsId: "${github_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    loadGitHubScript(name: 'push_github.sh')
+    sh "./push_github.sh ${USERNAME} ${PASSWORD} ${config.commit_msg} ${config.archive_name} ${config.repo_name_without_https}"
+  }
+}
+
 def hello(String name) {
   echo "My Name is ${name}"
 }
