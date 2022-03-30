@@ -4,15 +4,18 @@ def hostname() {
 
 def sftp_get(Map sftp_args = [:]) {
   withCredentials([usernamePassword(credentialsId: "${sftp_args.credential_sftp_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    sh "echo get ${sftp_args.target_path}/${sftp_args.tar_archive_name} | sshpass -p ${PASSWORD} sftp -q -oStrictHostKeyChecking=no ${USERNAME}@${sftp_args.sftp_ip}"
-    sh "echo $PWD"
+    dir("${WORKSPACE}/")
+    {
+      sh "echo get ${sftp_args.target_path}/${sftp_args.tar_archive_name} | sshpass -p ${PASSWORD} sftp -q -oStrictHostKeyChecking=no ${USERNAME}@${sftp_args.sftp_ip}"
+      sh "echo $PWD"
+    }
   }
 }
 
 def push_github(Map github_args = [:])
 {
   withCredentials([usernamePassword(credentialsId: "${github_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    dir("${WORKSPACE}/${github_args.target}")
+    dir("${WORKSPACE}/")
     {
       sh "echo ${github_args.archive_name}"
     }
