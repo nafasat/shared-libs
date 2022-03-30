@@ -1,4 +1,5 @@
 #!/bin/bash
+echo $PWD
 USERNAME="$1"
 PASSWORD="$2"
 commit_msg="$3"
