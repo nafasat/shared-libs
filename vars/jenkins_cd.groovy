@@ -21,8 +21,9 @@ def push_github_script(Map github_args = [:]) {
   }
 }
 
-def image_to_quay_repo(Map quay_args = [:]) {
+def image_push_to_quay_repo(Map quay_args = [:]) {
   withCredentials([usernamePassword(credentialsId: "${quay_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    sh "skopeo login --username ${USERNAME} --password ${PASSWORD} enterprisequay.hbctxdom.com"
     sh "skopeo copy docker-archive:./${archive_name} docker://enterprisequay.hbctxdom.com/${quay_args.container_repo}/${quay_args.container_image_name}:${quay_args.image_tag}"
   }
 }
