@@ -11,5 +11,7 @@ def sftp_get() {
 }
 
 def test_if_condition(Map config=[:]) {
-  sh "echo ${config.name}"
+  if ("${config.name}"=='') {
+    sh "echo ${config.name}"
+  }
 }
