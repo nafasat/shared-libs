@@ -19,7 +19,7 @@ if [[ `unzip -Zl "${archive_name}" | grep 'unx' | cut -f1 -d' '` =~ d+ ]]
 then
   unzip -o "${archive_name}" -d "${main_file_name}"_tmp
   rm -rf "${archive_name}"
-  cp "${main_file_name}"_tmp/"${main_file_name}" ./"${repo_name_only}"/
+  cp -r "${main_file_name}"_tmp/"${main_file_name}/*" ./"${repo_name_only}"/
 else
   unzip -o "${archive_name}"
   rm -rf "${archive_name}"
