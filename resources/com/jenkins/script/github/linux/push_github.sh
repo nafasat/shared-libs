@@ -17,9 +17,10 @@ main_file_name=`unzip -Z1 "${archive_name}"`
 alias cp='cp'
 if [[ `unzip -Zl "${archive_name}" | grep 'unx' | cut -f1 -d' '` =~ d+ ]]
 then
-  unzip -o "${archive_name}" -d "${main_file_name}"_tmp
+  main_file_name=`echo $main_file_name | sed 's/\/$//g'`
+  unzip -o "${archive_name}" -d tmp_"${main_file_name}"
   rm -rf "${archive_name}"
-  cp -r tmp_"${main_file_name}"/"${main_file_name}*" ./"${repo_name_only}"/
+  cp -r tmp_"${main_file_name}"/"${main_file_name}/*" ./"${repo_name_only}"/
 else
   unzip -o "${archive_name}"
   rm -rf "${archive_name}"
