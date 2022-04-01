@@ -15,7 +15,7 @@ else
 fi
 main_file_name=`unzip -Z1 "${archive_name}"`
 alias cp='cp'
-if [[ `unzip -Zl ${archive_name}" | grep 'unx' | cut -f1 -d' '` =~ d+ ]]
+if [[ `unzip -Zl "${archive_name}" | grep 'unx' | cut -f1 -d' '` =~ d+ ]]
 then
   unzip -o "${archive_name}" -d "${main_file_name}"_tmp
   rm -rf "${archive_name}"
