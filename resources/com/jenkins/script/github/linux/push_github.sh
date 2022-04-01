@@ -5,6 +5,7 @@ commit_msg="$3"
 archive_name="$4"
 repo_name_without_https="$5"
 git clone https://"${USERNAME}":"${PASSWORD}"@"${repo_name_without_https}"
+repo_name_only=$(basename "$repo_name_without_https" .git)
 if [ -f ${archive_name} ]
 then
   unzip -o "${archive_name}"
@@ -13,11 +14,17 @@ else
   exit 1
 fi
 main_file_name=`unzip -Z1 "${archive_name}"`
-unzip -o "${archive_name}"
-rm -rf "${archive_name}"
-repo_name_only=$(basename "$repo_name_without_https" .git)
 alias cp='cp'
-cp "${main_file_name}" ./"${repo_name_only}"/
+if [[ `unzip -Zl ${archive_name}" | grep 'unx' | cut -f1 -d' '` =~ d+ ]]
+then
+  unzip -o "${archive_name}" -d "${main_file_name}"_tmp
+  rm -rf "${archive_name}"
+  cp "${main_file_name}"_tmp/"${main_file_name}" ./"${repo_name_only}"/
+else
+  unzip -o "${archive_name}"
+  rm -rf "${archive_name}"
+  cp "${main_file_name}" ./"${repo_name_only}"/
+fi
 cd ./"${repo_name_only}"
 git checkout dtesting
 git add -A
