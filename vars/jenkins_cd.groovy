@@ -28,6 +28,12 @@ def image_push_to_quay_repo(Map quay_args = [:]) {
   }
 }
 
+def scan_and_get_report(Map quay_scan_args = [:]) {
+  withCredentials([usernamePassword(credentialsId: "${quay_scan_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+  
+  }
+}
+
 def hello(String name) {
   echo "My Name is ${name}"
 }
