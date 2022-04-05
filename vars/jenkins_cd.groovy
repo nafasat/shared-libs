@@ -1,7 +1,3 @@
-def hostname() {
-  sh '''hostname -f'''
-}
-
 def sftp_get(Map sftp_args = [:]) {
   withCredentials([usernamePassword(credentialsId: "${sftp_args.credential_sftp_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     dir("${WORKSPACE}/")
@@ -30,10 +26,40 @@ def image_push_to_quay_repo(Map quay_args = [:]) {
 
 def scan_and_get_report(Map quay_scan_args = [:]) {
   withCredentials([usernamePassword(credentialsId: "${quay_scan_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-  
+    def quay_url='enterprisequay.hbctxdom.com'
+    def report_file='report_file.txt'
+    def vulnerablities_file='vulnerablities_file.out'
+    sh "skopeo login --username ${USERNAME} --password ${PASSWORD} ${quay_url}"
+    sh "skopeo copy docker-archive:./${quay_scan_args.Image_archival_name} docker://${quay_url}/${quay_scan_args.quay_work_space}/${quay_scan_args.Image_repo_name}:${quay_scan_args.Image_tag_name} && sleep 10"
+    def manifest = sh returnStdout: true, script: "skopeo inspect docker://${quay_url}/${quay_scan_args.quay_work_space}/${quay_scan_args.Image_repo_name}:${quay_scan_args.Image_tag_name} | jq -r .Digest"
+    int count = 0;
+    while(count<10) {
+      def image_scane_status = sh returnStdout: true, script: "curl -s --user ${USERNAME}:${PASSWORD} https://${quay_url}/api/v1/repository/${quay_scan_args.quay_work_space}/${quay_scan_args.Image_repo_name}/mainifest${mainifest_name}/security?vulnerabilities=true | jq .status"
+      if ( image_scane_status == '"status"' ) {
+        break
+      } else {
+        if (count == 10) {
+          println("TimeOut, Scanning process may be still in progress, Please check manually")
+          currentBuild.result = 'ABORTED'
+          error("Aborting the build.")
+        } else {
+          count++
+         }
+      }
+    }
+    sh "curl -s --user ${USERNAME}:${PASSWORD} https://${quay_url}/api/v1/repository/${quay_scan_args.quay_work_space}/${quay_scan_args.Image_repo_name}/mainifest${mainifest_name}/security?vulnerabilities=true > ${report_file}"
+    sh "jq -r '.data.Layer.Features[].vulnerabilities[] | select (.Severity == ("High") or .Severity == ("Medium") or .Severity == ("Critical")) | .Severity' ${report_file} | sort | uniq -c > ${vulnerablities_file}"
+    def Critical_Vul = sh returnStdout: true, script: "awk '/Critical/{print$1}' ${vulnerablities_file}"
+    def High_Vul = sh returnStdout: true, script: "awk '/High/{print$1}' ${vulnerablities_file}"
+    def Medium_Vul = sh returnStdout: true, script: "awk '/Medium/{print$1}' ${vulnerablities_file}"
+    if (Critical_Vul>1) {
+      println(Critical)
+    } else if (High_Vul>1) {
+        println(High_Vul)
+    } else if (Medium_Vul>1) {
+      println(Medium_Vul)
+    } else {
+      println("No Vul")
+    }    
   }
-}
-
-def hello(String name) {
-  echo "My Name is ${name}"
 }
