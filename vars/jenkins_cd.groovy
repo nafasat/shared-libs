@@ -14,7 +14,7 @@ def push_github_script(Map github_args = [:]) {
   withCredentials([usernamePassword(credentialsId: "${github_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     if ("${github_args.commit_msg}" == '')
     {
-      github_args.commit_msg=${BUILD_TAG}
+      github_args.commit_msg="${BUILD_TAG}"
     }
     loadGitHubScript(name: 'push_github.sh')
     sh "./push_github.sh ${USERNAME} ${PASSWORD} ${github_args.commit_msg} ${github_args.archive_name} ${github_args.repo_name_without_https} ${github_args.push_to_feature_branch_name} ${github_args.pull_from_branch_name}"
