@@ -6,7 +6,7 @@ archive_name="$4"
 repo_name_without_https="$5"
 push_to_feature_branch_name="$6"
 pull_from_branch_name="$7"
-if [ -z $pull_from_branch_name ]
+if [[ -z $pull_from_branch_name ]] || [[ $pull_from_branch_name -eq "master" ]] || [[ $pull_from_branch_name -eq "main" ]]
 then
   git clone https://"${USERNAME}":"${PASSWORD}"@"${repo_name_without_https}"
 else
@@ -14,7 +14,7 @@ else
 fi
 repo_name_only=$(basename "$repo_name_without_https" .git)
 alias cp='cp'
-if [ -f ${archive_name} ]
+if [[ -f ${archive_name} ]]
 then
   if [[ `unzip -Zl "${archive_name}" | grep 'unx' | cut -f1 -d' '` =~ d+ ]]
   then
@@ -33,10 +33,10 @@ else
   exit 1
 fi
 cd ./"${repo_name_only}"
-if [ -z $push_to_feature_branch_name ]
+if [[ -z $push_to_feature_branch_name ]]
 then
   git checkout testing
-  if [ $? -ne 0 ]
+  if [[ $? -ne 0 ]]
   then
     echo "Feature Branch testing doesn't exist, so creating and switching to it also"
     git checkout -b testing
@@ -44,7 +44,7 @@ then
   
 else
   git checkout $push_to_feature_branch_name
-  if [ $? -ne 0 ]
+  if [[ $? -ne 0 ]]
   then
     echo "Feature Branch doesn't exist, so creating and switching to it also"
     git checkout -b $push_to_feature_branch_name
