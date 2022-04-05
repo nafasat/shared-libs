@@ -49,9 +49,9 @@ def scan_and_get_report(Map quay_scan_args = [:]) {
     }
     sh "curl -s --user ${USERNAME}:${PASSWORD} https://${quay_url}/api/v1/repository/${quay_scan_args.quay_work_space}/${quay_scan_args.Image_repo_name}/mainifest${mainifest_name}/security?vulnerabilities=true > ${report_file}"
     sh "jq -r '.data.Layer.Features[].vulnerabilities[] | select (.Severity == ("High") or .Severity == ("Medium") or .Severity == ("Critical")) | .Severity' ${report_file} | sort | uniq -c > ${vulnerablities_file}"
-    def Critical_Vul = sh returnStdout: true, script: "awk '/Critical/{print$1}' ${vulnerablities_file}"
-    def High_Vul = sh returnStdout: true, script: "awk '/High/{print$1}' ${vulnerablities_file}"
-    def Medium_Vul = sh returnStdout: true, script: "awk '/Medium/{print$1}' ${vulnerablities_file}"
+    def Critical_Vul = sh returnStdout: true, script: "awk '/Critical/{print\$1}' ${vulnerablities_file}"
+    def High_Vul = sh returnStdout: true, script: "awk '/High/{print\$1}' ${vulnerablities_file}"
+    def Medium_Vul = sh returnStdout: true, script: "awk '/Medium/{print\$1}' ${vulnerablities_file}"
     if (Critical_Vul>1) {
       println(Critical)
     } else if (High_Vul>1) {
