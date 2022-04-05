@@ -20,7 +20,7 @@ def push_github_script(Map github_args = [:]) {
 def image_push_to_quay_repo(Map quay_args = [:]) {
   withCredentials([usernamePassword(credentialsId: "${quay_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     sh "skopeo login --username ${USERNAME} --password ${PASSWORD} enterprisequay.hbctxdom.com"
-    sh "skopeo copy docker-archive:./${quay_args.archive_name} docker://enterprisequay.hbctxdom.com/${quay_args.container_repo}/${quay_args.container_image_name}:${quay_args.image_tag}"
+    sh "skopeo copy docker-archive:./${quay_args.archive_name} docker://enterprisequay.hbctxdom.com/${quay_args.container_repo}/${quay_args.container_image_name}:${quay_args.image_tag} && sleep 10"
   }
 }
 
@@ -29,8 +29,6 @@ def scan_and_get_report(Map quay_scan_args = [:]) {
     def quay_url='enterprisequay.hbctxdom.com'
     def report_file='report_file.txt'
     def vulnerablities_file='vulnerablities_file.out'
-    sh "skopeo login --username ${USERNAME} --password ${PASSWORD} ${quay_url}"
-    sh "skopeo copy docker-archive:./${quay_scan_args.Image_archival_name} docker://${quay_url}/${quay_scan_args.quay_work_space}/${quay_scan_args.Image_repo_name}:${quay_scan_args.Image_tag_name} && sleep 10"
     def manifest = sh returnStdout: true, script: "skopeo inspect docker://${quay_url}/${quay_scan_args.quay_work_space}/${quay_scan_args.Image_repo_name}:${quay_scan_args.Image_tag_name} | jq -r .Digest"
     int count = 0;
     while(count<10) {
