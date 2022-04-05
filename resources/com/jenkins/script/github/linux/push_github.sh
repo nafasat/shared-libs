@@ -8,7 +8,6 @@ push_to_feature_branch_name="$6"
 pull_from_branch_name="$7"
 echo "push_to_feature_branch_name, $push_to_feature_branch_name"
 echo "pull_from_branch_name, $pull_from_branch_name"
-exit 1
 if [[ -z $pull_from_branch_name ]] || [[ $pull_from_branch_name -eq "master" ]] || [[ $pull_from_branch_name -eq "main" ]]
 then
   git clone https://"${USERNAME}":"${PASSWORD}"@"${repo_name_without_https}"
