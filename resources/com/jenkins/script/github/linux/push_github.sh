@@ -4,7 +4,14 @@ PASSWORD="$2"
 commit_msg="$3"
 archive_name="$4"
 repo_name_without_https="$5"
-git clone https://"${USERNAME}":"${PASSWORD}"@"${repo_name_without_https}"
+push_to_feature_branch_name="$6"
+pull_from_branch_name="$7"
+if [ -z $pull_from_branch_name ]
+then
+  git clone https://"${USERNAME}":"${PASSWORD}"@"${repo_name_without_https}"
+else
+  git clone -b ${pull_from_branch_name} https://"${USERNAME}":"${PASSWORD}"@"${repo_name_without_https}"
+fi
 repo_name_only=$(basename "$repo_name_without_https" .git)
 alias cp='cp'
 if [ -f ${archive_name} ]
@@ -26,7 +33,17 @@ else
   exit 1
 fi
 cd ./"${repo_name_only}"
-git checkout dtesting
+if [ -z $push_to_feature_branch_name ]
+then
+  git checkout dtesting
+else
+  git checkout $push_to_feature_branch_name
+  if [ $? -ne 0 ]
+  then
+    echo "Feature Branch doesn't exist, so created and switch also"
+    git checkout -b $push_to_feature_branch_name
+  fi
+fi
 git add -A
 git commit -m "${commit_msg}"
 git push https://"${USERNAME}":"${PASSWORD}"@"${repo_name_without_https}"
