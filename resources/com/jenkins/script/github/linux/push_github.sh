@@ -35,12 +35,18 @@ fi
 cd ./"${repo_name_only}"
 if [ -z $push_to_feature_branch_name ]
 then
-  git checkout dtesting
+  git checkout testing
+  if [ $? -ne 0 ]
+  then
+    echo "Feature Branch testing doesn't exist, so creating and switching to it also"
+    git checkout -b testing
+  fi
+  
 else
   git checkout $push_to_feature_branch_name
   if [ $? -ne 0 ]
   then
-    echo "Feature Branch doesn't exist, so created and switch also"
+    echo "Feature Branch doesn't exist, so creating and switching to it also"
     git checkout -b $push_to_feature_branch_name
   fi
 fi
