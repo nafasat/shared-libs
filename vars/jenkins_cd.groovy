@@ -12,7 +12,7 @@ def sftp_get(Map sftp_args = [:]) {
 
 def push_github_script(Map github_args = [:]) {
   withCredentials([usernamePassword(credentialsId: "${github_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    if ("${github_args.commit_msg}" = '')
+    if ("${github_args.commit_msg}" == '')
     {
       github_args.commit_msg=${BUILD_TAG}
     }
