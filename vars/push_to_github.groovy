@@ -1,4 +1,4 @@
-def push_github_script(Map github_args = [:]) {
+def push_github_auth_based(Map github_args = [:]) {
   withCredentials([usernamePassword(credentialsId: "${github_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     
     if ("${github_args.commit_msg}" == '') {
@@ -14,7 +14,6 @@ def push_github_script(Map github_args = [:]) {
     } else {
       repo_name_only = sh(returnStdout: true, script: "basename ${github_args.repo_name_without_https} .git").trim()
     }
-    println("Line no 17 ${repo_name_only}")
 
     if ("${github_args.pull_from_branch_name}" == "master" || "${github_args.pull_from_branch_name}" == "main" || "${github_args.pull_from_branch_name}" == "") {
       def return_status_git_clone = sh returnStatus: true, script: "git clone https://${USERNAME}:${PASSWORD}@${github_args.repo_name_without_https}"
