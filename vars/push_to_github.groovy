@@ -12,7 +12,7 @@ def push_github_script(Map github_args = [:]) {
       currentBuild.result = 'ABORTED'
       error("Aborting the build.")  
     } else {
-      def repo_name_only = sh(returnStdout: true, script: "basename ${github_args.repo_name_without_https} .git").trim()
+      repo_name_only = sh(returnStdout: true, script: "basename ${github_args.repo_name_without_https} .git").trim()
     }
     println("Line no 17 ${repo_name_only}")
 
