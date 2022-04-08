@@ -47,6 +47,7 @@ def push_github_script(Map github_args = [:]) {
         file_content_type = sh(returnStdout: true, script: "unzip -Zl ${github_args.zip_file_name} | grep 'unx' | cut -f1 -d' '").trim()
         if ( file_content_type ==~ "^d.*" ) {
           main_file_name = sh(returnStdout: true, script: "unzip -Z1 ${github_args.zip_file_name} | head -1 | sed 's:/*\$::'").trim()
+          println("${main_file_name} is a Dir")
           sh("unzip -o ${github_args.zip_file_name} -d tmp_${main_file_name}")
           sh("rm -rf ${github_args.zip_file_name}")
           sh("cp -r tmp_${main_file_name}/${main_file_name}/* ./${repo_name_only}/")
