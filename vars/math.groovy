@@ -29,5 +29,5 @@ def git_clone(Map git_clone_config=[:]) {
 
 
 def abc(Map abc_config=[:]) {
-  println("frst name is ${abc_config.fname} and last name is ${git_clone_config.lname}")
+  println("frst name is ${abc_config.fname} and last name is ${abc_config.lname}")
 }
