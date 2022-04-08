@@ -49,7 +49,7 @@ def push_github_script(Map github_args = [:]) {
           main_file_name = sh(returnStdout: true, script: "unzip -Z1 ${github_args.zip_file_name} | head -1 | sed 's:/*\$::'").trim()
           sh("unzip -o ${github_args.zip_file_name} -d tmp_${main_file_name}")
           sh("rm -rf ${github_args.zip_file_name}")
-          println("cp -r tmp_${main_file_name}/${main_file_name}/* ./${repo_name_only}/")
+          println("Repo Name line 52 ${repo_name_only}")
           sh("cp -r tmp_${main_file_name}/${main_file_name}/* ./${repo_name_only}/")
         } else {
           main_file_name=sh(returnStdout: true, script: "unzip -Z1 ${github_args.zip_file_name}").trim()
