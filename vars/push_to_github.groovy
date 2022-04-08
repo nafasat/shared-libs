@@ -49,12 +49,22 @@ def push_github_auth_based(Map github_args = [:]) {
           println("${main_file_name} is a Dir")
           sh("unzip -o ${github_args.zip_file_name} -d tmp_${main_file_name}")
           sh("rm -rf ${github_args.zip_file_name}")
-          sh("cp -r tmp_${main_file_name}/${main_file_name}/* ./${repo_name_only}/")
+          status_copy_files_to_local_repo = sh(returnStatus: true, script: "cp -r tmp_${main_file_name}/${main_file_name}/* ./${repo_name_only}/")
+          if ("${status_copy_files_to_local_repo}" == "0") {
+            println("Done: coplied to local repo repo folder")
+          } else {
+            println("failed : coplied to local repo repo folder")
+          }
         } else {
           main_file_name=sh(returnStdout: true, script: "unzip -Z1 ${github_args.zip_file_name}").trim()
           sh("unzip -o ${github_args.zip_file_name}")
           sh("rm -rf ${github_args.zip_file_name}")
-          sh("cp ${main_file_name} ./${repo_name_only}/")
+          status_copy_files_to_local_repo = sh(returnStatus: true, script: "cp ${main_file_name} ./${repo_name_only}/")
+          if ("${status_copy_files_to_local_repo}" == "0") {
+            println("Done: coplied to local repo repo folder")
+          } else {
+            println("failed : coplied to local repo repo folder")
+          }
         }
       } else {
         println("ZIP File doesn't exist at Workspace")
