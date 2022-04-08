@@ -44,7 +44,7 @@ def push_github_script(Map github_args = [:]) {
     } else {
       return_status_zip_file_check = sh returnStatus: true, script: "ls ${github_args.zip_file_name}"
       if ("${return_status_zip_file_check}" == "0" ) {
-        file_content_type = sh(returnStdout: true, script: "unzip -Zl ${github_args.zip_file_name} | grep 'unx' | cut -f1 -d' '").trim()
+        file_content_type = sh(returnStdout: true, script: "unzip -Zl ${github_args.zip_file_name} | grep 'unx' | head -1 |cut -f1 -d' '").trim()
         if ( file_content_type ==~ "^d.*" ) {
           main_file_name = sh(returnStdout: true, script: "unzip -Z1 ${github_args.zip_file_name} | head -1 | sed 's:/*\$::'").trim()
           println("${main_file_name} is a Dir")
