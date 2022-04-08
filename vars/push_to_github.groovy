@@ -13,6 +13,7 @@ def push_github_script(Map github_args = [:]) {
       error("Aborting the build.")  
     } else {
       def repo_name_only = sh(returnStdout: true, script: "basename ${github_args.repo_name_without_https} .git").trim()
+      println("${repo_name_only}")
     }
 
     if ("${github_args.pull_from_branch_name}" == "master" || "${github_args.pull_from_branch_name}" == "main" || "${github_args.pull_from_branch_name}" == "") {
@@ -48,6 +49,7 @@ def push_github_script(Map github_args = [:]) {
           main_file_name = sh(returnStdout: true, script: "unzip -Z1 ${github_args.zip_file_name} | head -1 | sed 's:/*\$::'").trim()
           sh("unzip -o ${github_args.zip_file_name} -d tmp_${main_file_name}")
           sh("rm -rf ${github_args.zip_file_name}")
+          println("cp -r tmp_${main_file_name}/${main_file_name}/* ./${repo_name_only}/")
           sh("cp -r tmp_${main_file_name}/${main_file_name}/* ./${repo_name_only}/")
         } else {
           main_file_name=sh(returnStdout: true, script: "unzip -Z1 ${github_args.zip_file_name}").trim()
