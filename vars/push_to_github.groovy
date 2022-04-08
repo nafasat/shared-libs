@@ -13,8 +13,8 @@ def push_github_script(Map github_args = [:]) {
       error("Aborting the build.")  
     } else {
       def repo_name_only = sh(returnStdout: true, script: "basename ${github_args.repo_name_without_https} .git").trim()
-      println("${repo_name_only}")
     }
+    println("Line no 17 ${repo_name_only}")
 
     if ("${github_args.pull_from_branch_name}" == "master" || "${github_args.pull_from_branch_name}" == "main" || "${github_args.pull_from_branch_name}" == "") {
       def return_status_git_clone = sh returnStatus: true, script: "git clone https://${USERNAME}:${PASSWORD}@${github_args.repo_name_without_https}"
