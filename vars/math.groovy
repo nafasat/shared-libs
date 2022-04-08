@@ -21,7 +21,7 @@ def git_clone(Map config=[:]) {
   checkout(
     [$class: 'GitSCM',
     branches: [[name: '*/master']], 
-    doGenerateSubmoduleConfigurations: false, 
+    doGenerateSubmoduleConfigurations: true, 
     extensions: [], 
     submoduleCfg: [], 
      userRemoteConfigs: [[credentialsId: "$config.credential_github_name}", url: 'https://github.com/nafasat/testing_git.git']]])
