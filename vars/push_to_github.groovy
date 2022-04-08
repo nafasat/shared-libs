@@ -51,7 +51,7 @@ def push_github_script(Map github_args = [:]) {
           sh("cp -r tmp_${main_file_name}/${main_file_name}/* ./${repo_name_only}/")
         } else {
           main_file_name=sh(returnStdout: true, script: "unzip -Z1 ${github_args.zip_file_name}").trim()
-          sh(unzip -o "${github_args.zip_file_name}")
+          sh("unzip -o ${github_args.zip_file_name}")
           sh("rm -rf ${github_args.zip_file_name}")
           sh("cp ${main_file_name} ./${repo_name_only}/")
         }
