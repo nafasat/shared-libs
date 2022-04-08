@@ -42,22 +42,18 @@ def push_github_script(Map github_args = [:]) {
       currentBuild.result = 'ABORTED'
       error("Aborting the build.")      
     } else {
-      def return_status_zip_file_check = sh returnStatus: true, script: "ls ${github_args.zip_file_name}"
+      return_status_zip_file_check = sh returnStatus: true, script: "ls ${github_args.zip_file_name}"
       if ("${return_status_zip_file_check}" == "0" ) {
-        def file_content_type = sh(returnStdout: true, script: "unzip -Zl ${github_args.zip_file_name} | grep 'unx' | cut -f1 -d' '").trim()
+        file_content_type = sh(returnStdout: true, script: "unzip -Zl ${github_args.zip_file_name} | grep 'unx' | cut -f1 -d' '").trim()
         if ( file_content_type ==~ "^d.*" ) {
           main_file_name = sh(returnStdout: true, script: "unzip -Z1 ${github_args.zip_file_name} | head -1 | sed 's:/*\$::'").trim()
           sh("unzip -o ${github_args.zip_file_name} -d tmp_${main_file_name}")
           sh("rm -rf ${github_args.zip_file_name}")
-          println("Repo Name line 52 ${repo_name_only}")
           sh("cp -r tmp_${main_file_name}/${main_file_name}/* ./${repo_name_only}/")
         } else {
           main_file_name=sh(returnStdout: true, script: "unzip -Z1 ${github_args.zip_file_name}").trim()
           sh("unzip -o ${github_args.zip_file_name}")
           sh("rm -rf ${github_args.zip_file_name}")
-          println("Line  no 58")
-          println(println("Repo Name line 59 ${repo_name_only}"))
-          println("cp ${main_file_name} ./${repo_name_only}/")
           sh("cp ${main_file_name} ./${repo_name_only}/")
         }
       } else {
