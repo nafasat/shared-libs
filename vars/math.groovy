@@ -17,12 +17,17 @@ def test_if_condition(Map config=[:]) {
   }
 }
 
-def git_clone(Map config=[:]) {
+def git_clone(Map git_clone_config=[:]) {
   checkout(
     [$class: 'GitSCM',
     branches: [[name: '*/master']], 
     doGenerateSubmoduleConfigurations: true, 
     extensions: [], 
     submoduleCfg: [], 
-     userRemoteConfigs: [[credentialsId: "$config.credential_github_name}", url: 'https://github.com/nafasat/testing_git.git']]])
+     userRemoteConfigs: [[credentialsId: "$git_clone_config.credential_github_name}", url: 'https://github.com/nafasat/testing_git.git']]])
+}
+
+
+def abc(Map abc_config=[:]) {
+  println("frst name is ${abc_config.fname} and last name is ${git_clone_config.lname}")
 }
