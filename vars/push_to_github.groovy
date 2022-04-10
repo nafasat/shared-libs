@@ -3,10 +3,10 @@ def push_github_auth_based(Map github_args = [:]) {
     withCredentials([usernamePassword(credentialsId: "${github_args.credential_sftp_name}", usernameVariable: 'SFTP_USERNAME', passwordVariable: 'SFTP_PASSWORD')]) {
       dir("${WORKSPACE}/")
       {
-        if ("${sftp_args.sftp_path}" == '') {
-          sftp_args.sftp_path='.'
+        if ("${github_args.sftp_path}" == '') {
+          github_args.sftp_path='.'
         }
-        sh "echo get ${sftp_args.sftp_path}/${sftp_args.tar_archive_name} | sshpass -p ${SFTP_PASSWORD} sftp -q -oStrictHostKeyChecking=no ${SFTP_USERNAME}@${sftp_args.sftp_ip}"
+        sh "echo get ${github_args.sftp_path}/${github_args.zip_file_name} | sshpass -p ${SFTP_PASSWORD} sftp -q -oStrictHostKeyChecking=no ${SFTP_USERNAME}@${github_args.sftp_ip}"
     
         if ("${github_args.commit_msg}" == '') {
           println("commit_msg is blank so passing Build_TAG with commit message")
