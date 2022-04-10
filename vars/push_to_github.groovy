@@ -3,7 +3,7 @@ def push_github_auth_based(Map github_args = [:]) {
     withCredentials([usernamePassword(credentialsId: "${github_args.credential_sftp_name}", usernameVariable: 'SFTP_USERNAME', passwordVariable: 'SFTP_PASSWORD')]) {
       dir("${WORKSPACE}/")
       {
-        if ("${github_args.sftp_path}" == '') {
+        if ("${github_args.sftp_path}" == '' || "${github_args.sftp_path}" == 'null') {
           github_args.sftp_path='.'
         }
         sh "echo get ${github_args.sftp_path}/${github_args.zip_file_name} | sshpass -p ${SFTP_PASSWORD} sftp -q -oStrictHostKeyChecking=no ${SFTP_USERNAME}@${github_args.sftp_ip}"
