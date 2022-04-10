@@ -1,6 +1,6 @@
 def push_github_auth_based(Map github_args = [:]) {
   withCredentials([usernamePassword(credentialsId: "${github_args.credential_github_name}", usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD')]) {
-    withCredentials([usernamePassword(credentialsId: "${sftp_args.credential_sftp_name}", usernameVariable: 'SFTP_USERNAME', passwordVariable: 'SFTP_PASSWORD')]) {
+    withCredentials([usernamePassword(credentialsId: "${github_args.credential_sftp_name}", usernameVariable: 'SFTP_USERNAME', passwordVariable: 'SFTP_PASSWORD')]) {
       dir("${WORKSPACE}/")
       {
         if ("${sftp_args.sftp_path}" == '') {
