@@ -10,12 +10,12 @@ def count(Map config=[:]) {
   sh "echo $config"
   println(config.keySet())
   println(config.size())
-  comp_keys = {"fname","lname"}
-  if (config.keys() >= comp_keys) {
+  println(config.keys() >= {"geeksforgeeks", "practice"})
+/*  if (config.keys() >= comp_keys) {
     println("Matched")
   } else {
     println("Not Matched")
-  }
+  } */
 }
 
 def sftp_get() {
