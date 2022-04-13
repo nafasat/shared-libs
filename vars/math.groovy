@@ -10,7 +10,7 @@ def count(Map config=[:]) {
   sh "echo $config"
   println(config.keySet())
   println(config.size())
-  Adict = {"Mon":3, "Tue":11,"Wed":6,"Thu":9}
+  Adict = ["Mon":3, "Tue":11,"Wed":6,"Thu":9]
   println(Adict.keySet())
   println(Adict.keys())
 /*  if (config.keys() >= comp_keys) {
