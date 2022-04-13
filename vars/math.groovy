@@ -6,6 +6,10 @@ def hostname() {
   sh '''hostname -f'''
 }
 
+def count(Map config=[:]) {
+  sh "echo $config"
+}
+
 def sftp_get() {
   sh "echo -oStrictHostKeyChecking=no -i ${keyfile} ${USERNAME}"
 }
