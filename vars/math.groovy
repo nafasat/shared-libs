@@ -10,7 +10,7 @@ def count(Map config=[:]) {
   sh "echo $config"
   println(config.keySet())
   println(config.size())
-  if (config.keys() >= {'fname','lname'}) {
+  if (config.keys() >= {"fname","lname"}) {
     println("Matched")
   } else {
     println("Not Matched")
