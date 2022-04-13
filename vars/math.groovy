@@ -8,6 +8,7 @@ def hostname() {
 
 def count(Map config=[:]) {
   sh "echo $config"
+  println(config.keySet())
 }
 
 def sftp_get() {
