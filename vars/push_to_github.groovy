@@ -1,4 +1,20 @@
 def push_github_auth_based(Map github_args = [:]) {
+  
+  needful_arguments = ['credential_github_name', 'credential_sftp_name', 'zip_file_name', 'sftp_ip', 'repo_name_without_https', 'commit_msg', 'pull_from_branch_name', 'push_to_feature_branch_name']
+  
+  if (github_args.size() != 8) {
+    currentBuild.result = 'ABORTED'
+    error("Aborting the build. Please pass all needful arguments -> ${needful_arguments}")
+  }
+  
+  needful_arguments_set = needful_arguments.toSet()
+  input_github_args_set = github_args.toSet()
+  
+  if (needful_arguments_set != input_github_args_set) {
+    currentBuild.result = 'ABORTED'
+    error("Aborting the build. Please pass correct needful arguments -> ${needful_arguments}")    
+  }
+  
   withCredentials([usernamePassword(credentialsId: "${github_args.credential_github_name}", usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD')]) {
     withCredentials([usernamePassword(credentialsId: "${github_args.credential_sftp_name}", usernameVariable: 'SFTP_USERNAME', passwordVariable: 'SFTP_PASSWORD')]) {
       dir("${WORKSPACE}/")
