@@ -8,7 +8,7 @@ def push_github_auth_based(Map github_args = [:]) {
   }
   
   needful_arguments_set = needful_arguments.toSet()
-  input_github_args_set = github_args.toSet()
+  input_github_args_set = github_args.keySet().toSet()
   
   if (needful_arguments_set != input_github_args_set) {
     currentBuild.result = 'ABORTED'
