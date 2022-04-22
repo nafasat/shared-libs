@@ -1,4 +1,5 @@
-def custom_fun(Map config=[:], String name = 'nafasat') {
+def custom_fun(Map config=[:]) {
+//, String name = 'nafasat') {
   println("your fist name is ${custom_fun.name} and lname is ${custom_fun.lname} and age is ${custom_fun.age}")
 }
 def add(x,y) {
