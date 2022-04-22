@@ -1,6 +1,6 @@
 def custom_fun(Map config=[:]) {
 //, String name = 'nafasat') {
-  println("your fist name is ${custom_fun.name} and lname is ${custom_fun.lname} and age is ${custom_fun.age}")
+  println("your fist name is ${config.name} and lname is ${config.lname} and age is ${config.age}")
 }
 def add(x,y) {
   echo "Sum of ${x} and ${y} is ${x+y}"
