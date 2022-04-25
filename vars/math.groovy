@@ -1,7 +1,9 @@
 def custom_fun(Map config=[:]) {
   def name = 'Nafasat'
   if (config.containsKey('name')) {
-  println("your fist name is ${config.name} and lname is ${config.lname} and age is ${config.age}")
+    if (${config.name}.toUpperCase.equal('yes'.toUpperCase())) {
+      println(${config.name}.toUpperCase())
+    }
   } else {
     println("your fist name is ${name} and lname is ${config.lname} and age is ${config.age}")
   }
