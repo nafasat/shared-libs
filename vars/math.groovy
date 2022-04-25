@@ -1,7 +1,7 @@
 def custom_fun(Map config=[:]) {
   def name = 'Nafasat'
   if (config.containsKey('name')) {
-    if ("${config.name}".toUpperCase.equal('yes'.toUpperCase())) {
+    if ("${config.name}".toUpperCase.equals('yes'.toUpperCase())) {
       println("${config.name}".toUpperCase())
     }
   } else {
