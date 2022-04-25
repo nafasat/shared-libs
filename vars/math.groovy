@@ -1,11 +1,14 @@
+def check_val(check_conf=[:]) {
+  if ("${config.name}".toUpperCase().equals('yes'.toUpperCase())) {
+    println("${config.name}".toUpperCase())
+    input_val = '--wait'
+  }
+}
 def custom_fun(Map config=[:]) {
   def name = 'Nafasat'
   def input_val = ''
   if (config.containsKey('name')) {
-    if ("${config.name}".toUpperCase().equals('yes'.toUpperCase())) {
-      println("${config.name}".toUpperCase())
-      input_val = '--wait'
-    }
+    check_val(name:'yes')
   } else {
     println("your fist name is ${name} and lname is ${config.lname} and age is ${config.age}")
     input_val = ''
