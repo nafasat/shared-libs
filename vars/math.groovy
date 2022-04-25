@@ -1,5 +1,6 @@
 def custom_fun(Map config=[:]) {
   def name = 'Nafasat'
+  def input_val = ''
   if (config.containsKey('name')) {
     if ("${config.name}".toUpperCase().equals('yes'.toUpperCase())) {
       println("${config.name}".toUpperCase())
