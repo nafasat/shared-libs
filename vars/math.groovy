@@ -1,6 +1,6 @@
 def check_val(check_conf=[:]) {
-  if ("${config.name}".toUpperCase().equals('yes'.toUpperCase())) {
-    println("${config.name}".toUpperCase())
+  if ("${check_conf.name}".toUpperCase().equals('yes'.toUpperCase())) {
+    println("${check_conf.name}".toUpperCase())
     input_val = '--wait'
   }
 }
