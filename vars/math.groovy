@@ -4,11 +4,11 @@ def custom_fun(Map config=[:]) {
   if (config.containsKey('name')) {
     if ("${config.name}".toUpperCase().equals('yes'.toUpperCase())) {
       println("${config.name}".toUpperCase())
-      def input_val = '--wait'
+      input_val = '--wait'
     }
   } else {
     println("your fist name is ${name} and lname is ${config.lname} and age is ${config.age}")
-    def input_val = ''
+    input_val = ''
   }
   
   println("helm uninstall ${input_val}")
