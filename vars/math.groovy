@@ -10,7 +10,7 @@ def custom_fun(Map ssh_config=[:]) {
     println("echo ssh with key ${ssh_config.key}")  
     ssh_config.each {
       if ("$it.value" == '' || "$it.value" == 'null') {
-        println("error")
+        println("error $it")
       }
     }
   } else {
