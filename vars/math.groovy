@@ -11,10 +11,7 @@ def custom_fun(Map config=[:]) {
     println("echo ssh without key !")
   }
 }
-  
-  println("helm uninstall ${input_val}")
-  
-}
+
 def add(x,y) {
   echo "Sum of ${x} and ${y} is ${x+y}"
 }
