@@ -5,14 +5,12 @@ def check_val(check_conf=[:]) {
   }
 }
 def custom_fun(Map config=[:]) {
-  def name = 'Nafasat'
-  def input_val = ''
-  if (config.containsKey('name')) {
-    check_val(name:'yes')
+  if (custom_fun.containKey('key')) {
+    println("echo ssh with key ${custom_fun.key}")
   } else {
-    println("your fist name is ${name} and lname is ${config.lname} and age is ${config.age}")
-    input_val = ''
+    println("echo ssh without key !")
   }
+}
   
   println("helm uninstall ${input_val}")
   
