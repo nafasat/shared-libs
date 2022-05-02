@@ -4,9 +4,18 @@ def check_val(check_conf=[:]) {
     input_val = '--wait'
   }
 }
+
 def custom_fun(Map ssh_config=[:]) {
   if (ssh_config.containsKey('key')) {
-    println("echo ssh with key ${ssh_config.key}")
+    println("echo ssh with key ${ssh_config.key}")  
+    ssh_config.each {
+      if ("$it.value" == '' || "$it.value" == 'null') {
+        println("error")
+      }
+    }
+  }
+}
+    
   } else {
     println("echo ssh without key !")
   }
