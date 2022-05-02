@@ -13,9 +13,6 @@ def custom_fun(Map ssh_config=[:]) {
         println("error")
       }
     }
-  }
-}
-    
   } else {
     println("echo ssh without key !")
   }
