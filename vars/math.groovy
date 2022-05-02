@@ -5,7 +5,7 @@ def check_val(check_conf=[:]) {
   }
 }
 def custom_fun(Map config=[:]) {
-  if (config.containKey('key')) {
+  if (config.containsKey('key')) {
     println("echo ssh with key ${custom_fun.key}")
   } else {
     println("echo ssh without key !")
