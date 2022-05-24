@@ -44,10 +44,7 @@ def sftp_get() {
 }
 
 def test_if_condition(Map config=[:]) {
-  if ("${config.name}"=='') {
-    config.name="Ahmed"
-    sh "echo ${config.name}"
-  }
+  welcome("${config}")
 }
 
 def git_clone(Map git_clone_config=[:]) {
