@@ -1,3 +1,3 @@
 def call(Map confwelcome = [:]) {
-  println("${confwelcome}")
+  println(confwelcome)
 }
