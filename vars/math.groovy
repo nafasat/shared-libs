@@ -44,7 +44,8 @@ def sftp_get() {
 }
 
 def test_if_condition(Map config=[:]) {
-  welcome("${config}")
+  println("${config}")
+  
 }
 
 def git_clone(Map git_clone_config=[:]) {
