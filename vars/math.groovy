@@ -43,9 +43,10 @@ def sftp_get() {
   sh "echo -oStrictHostKeyChecking=no -i ${keyfile} ${USERNAME}"
 }
 
-def test_if_condition(Map config=[:]) {
-  println("${config}")
-  
+def test_if_condition(Map testconfig=[:]) {
+  println(testconfig)
+  println("---------------")
+  welcome(testconfig)
 }
 
 def git_clone(Map git_clone_config=[:]) {
