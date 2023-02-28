@@ -1,22 +1,50 @@
+/**
+ * sftp_get - function to retrieve a file from an SFTP server
+ * @param sftp_args: a Map object containing the following keys:
+ *        credential_sftp_name: the ID of the Jenkins credentials containing the SFTP username and password
+ *        sftp_path: the path on the SFTP server where the file is located
+ *        tar_archive_name: the name of the file to retrieve
+ *        sftp_ip: the IP address or hostname of the SFTP server
+ * @return none
+ */
 def sftp_get(Map sftp_args = [:]) {
+  // Use withCredentials to retrieve the SFTP username and password from Jenkins credentials
   withCredentials([usernamePassword(credentialsId: "${sftp_args.credential_sftp_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    dir("${WORKSPACE}/")
-    {
+    // Change to the Jenkins workspace directory
+    dir("${WORKSPACE}/") {
+      // If the sftp_path is not provided, set it to the current directory (".")
       if ("${sftp_args.sftp_path}" == '') {
         sftp_args.sftp_path='.'
       }
+      // Use the "sh" step to execute an SFTP command to retrieve the file
       sh "echo get ${sftp_args.sftp_path}/${sftp_args.tar_archive_name} | sshpass -p ${PASSWORD} sftp -q -oStrictHostKeyChecking=no ${USERNAME}@${sftp_args.sftp_ip}"
     }
   }
 }
 
+/**
+ * push_github_script - function to push files to a GitHub repository
+ * @param github_args: a Map object containing the following keys:
+ *        credential_github_name: the ID of the Jenkins credentials containing the GitHub username and password
+ *        commit_msg: the commit message to use when pushing changes to the repository. If not provided, the Jenkins build tag is used as the commit message.
+ *        archive_name: the name of the archive file to push to the repository
+ *        repo_name_without_https: the name of the repository to push the files to, without the https:// prefix
+ *        push_to_feature_branch_name: the name of the feature branch to push the files to
+ *        pull_from_branch_name: the name of the branch to pull changes from before pushing the files
+ * @return none
+ */
+
+
 def push_github_script(Map github_args = [:]) {
+  // Use withCredentials to retrieve the GitHub username and password from Jenkins credentials
   withCredentials([usernamePassword(credentialsId: "${github_args.credential_github_name}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    if ("${github_args.commit_msg}" == '')
-    {
+    // If the commit message is not provided, set it to the Jenkins build tag
+    if ("${github_args.commit_msg}" == '') {
       github_args.commit_msg="${BUILD_TAG}"
     }
+    // Load the push_github.sh script
     loadGitHubScript(name: 'push_github.sh')
+    // Execute the push_github.sh script with the necessary arguments
     sh "./push_github.sh ${USERNAME} ${PASSWORD} ${github_args.commit_msg} ${github_args.archive_name} ${github_args.repo_name_without_https} ${github_args.push_to_feature_branch_name} ${github_args.pull_from_branch_name}"
   }
 }
